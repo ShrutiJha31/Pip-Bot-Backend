@@ -9,3 +9,5 @@ Have you ever faced a situation when your complete website or some endpoints is 
 
 ### This Repo is Backend of [Pip-Bot-Frontend](https://github.com/pcon-code-tribe/Pip-Bot-Frontend)
 ---
+## How to start
+import db.sql in database & update .env file according to your db credential
