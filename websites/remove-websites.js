@@ -17,10 +17,10 @@ Router.delete('/:website_id', VerifyToken, function (req, res) {
             if (!err) {
                 res.send("Deleted Successfully!")
             } else {
-                console.log(err)
+                console.log(err);
             }
             
-            console.log(rows)
+            console.log(rows);
     
             })
             

@@ -1,5 +1,5 @@
 'use strict';
-var dbConn = require('../config/db_config');
+var pool = require('../config/db_config');
 
 var User = function (user) {
     this.email = user.email;
@@ -11,7 +11,7 @@ var User = function (user) {
 
 
 User.create = function (newUser, result) {
-    dbConn.query("INSERT INTO users set ?", [newUser], function (err, res) {
+    pool.query("INSERT INTO users set ?", [newUser], function (err, res) {
         if (err) {
             result(err, null);
         }
@@ -22,7 +22,7 @@ User.create = function (newUser, result) {
 };
 
 User.findById = function (id, result) {
-    dbConn.query("Select * from users where user_id = ? ", id, function (err, res) {
+    pool.query("Select * from users where user_id = ? ", id, function (err, res) {
         if (err) {
             result(err, null);
         }
@@ -33,7 +33,7 @@ User.findById = function (id, result) {
 };
 
 User.findByEmail = function(email,result){
-    dbConn.query("Select * from users where email= ? ",email,function(err,res){
+    pool.query("Select * from users where email= ? ",email,function(err,res){
         if(err){
             result(err,null);
         }
@@ -44,7 +44,7 @@ User.findByEmail = function(email,result){
 };
 
 User.findAll = function (result) {
-    dbConn.query("Select user_id,email,plan,isActive,timestamp from users", function (err, res) {
+    pool.query("Select user_id,email,plan,isActive,timestamp from users", function (err, res) {
         if (err) {
             result(null, err);
         }
@@ -55,9 +55,9 @@ User.findAll = function (result) {
 };
 
 User.update = function (id, user, result) {
-    dbConn.query("SELECT * FROM users WHERE user_id=?",[id],function(err,res){
+    pool.query("SELECT * FROM users WHERE user_id=?",[id],function(err,res){
         if(res.length!=0){
-            dbConn.query("UPDATE users SET plan=?, isActive=? WHERE user_id = ?", [user.plan, user.isActive, id], function (err, res) {
+            pool.query("UPDATE users SET plan=?, isActive=? WHERE user_id = ?", [user.plan, user.isActive, id], function (err, res) {
                 if (err) {
                     result(null, err);
                 } else {
@@ -72,9 +72,9 @@ User.update = function (id, user, result) {
 };
 
 User.delete = function (id, result) {
-    dbConn.query("SELECT * FROM users WHERE user_id = ?",[id],function(err,res){
+    pool.query("SELECT * FROM users WHERE user_id = ?",[id],function(err,res){
         if(res.length!=0){
-            dbConn.query("DELETE FROM users WHERE user_id = ?", [id], function (err, res) {
+            pool.query("DELETE FROM users WHERE user_id = ?", [id], function (err, res) {
                 if (err) {
     
                     result(null, err);
@@ -93,9 +93,9 @@ User.delete = function (id, result) {
 //To be implemented later 
 
 // User.updatePassword = function (id, user, result) {
-//     dbConn.query("SELECT * FROM users WHERE user_id=?",[id],function(err,res){
+//     pool.query("SELECT * FROM users WHERE user_id=?",[id],function(err,res){
 //         if(res.length!=0){
-//             dbConn.query("UPDATE users SET plan=?, isActive=?, timestamp=? WHERE user_id = ?", [user.email, user.password, user.plan, user.isActive, user.timestamp, id], function (err, res) {
+//             pool.query("UPDATE users SET plan=?, isActive=?, timestamp=? WHERE user_id = ?", [user.email, user.password, user.plan, user.isActive, user.timestamp, id], function (err, res) {
 //                 if (err) {
     
 //                     result(null, err);

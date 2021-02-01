@@ -5,7 +5,7 @@ const mysql = require("mysql");
 const fs=require('fs');
 const path=require('path');
 
-let dbConn = mysql.createPool({
+let pool = mysql.createPool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASS,
@@ -14,7 +14,7 @@ let dbConn = mysql.createPool({
 
 });
 
-dbConn.getConnection((err, connection) => {
+pool.getConnection((err, connection) => {
   if (err) {
     console.log(err);
   } else {
@@ -33,5 +33,5 @@ dbConn.getConnection((err, connection) => {
   return;
 });
 
-dbConn.query = util.promisify(dbConn.query);
-module.exports = dbConn;
+pool.query = util.promisify(pool.query);
+module.exports = pool;
