@@ -13,7 +13,7 @@ CREATE TABLE `logs` (
 
 CREATE TABLE `users` (
   `user_id` int(11) NOT NULL,
-  `email` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL UNIQUE,
   `password` varchar(255) NOT NULL,
   `plan` int(11) NOT NULL,
   `isActive` int(11) NOT NULL,

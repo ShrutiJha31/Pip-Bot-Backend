@@ -10,10 +10,21 @@
   "author": "pcon-jsr",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
     "mysql": "^2.18.1",
     "util": "^0.12.3"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/decon-harsh/Pip-Bot-Backend.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/decon-harsh/Pip-Bot-Backend/issues"
+  },
+  "homepage": "https://github.com/decon-harsh/Pip-Bot-Backend#readme"
 }
