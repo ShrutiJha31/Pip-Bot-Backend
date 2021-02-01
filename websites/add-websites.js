@@ -10,17 +10,18 @@ Router.post('/',VerifyToken, function (req, res) {
                 if(err) throw err
                 
                 
-               // console.log(params);
-                connection.query('INSERT INTO websites SET ?',req.body, (err, rows) => {
+                if (req.body.user_id!=req.userId) return res.status(401).send({error:true, message:'Authentication Error'});
+                connection.query('INSERT INTO websites SET ?',[req.body ], (err, rows) => {
                 connection.release() 
                 if (!err) {
                     res.send(rows)
+                    console.log(rows)
                     console.log("Inserted Successfully!")                             
                 } else {
                     console.log(err)
                 }
                 
-                console.log(rows)
+            
         
                 })
             })
