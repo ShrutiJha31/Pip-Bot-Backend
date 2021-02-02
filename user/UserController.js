@@ -7,7 +7,7 @@ const User = require('./User');
 
 
 exports.findAll = function (req, res) {
-    console.log(global.__currentuser);
+  
     User.findAll(function (err, user) {
         if (err)
             res.send(err);
@@ -16,15 +16,18 @@ exports.findAll = function (req, res) {
 };
 
 exports.create = function (req, res) {
+     
+     // hashing password
+     req.body['password'] = bcrypt.hashSync(req.body['password'], 10);
 
-    // hashing password
-    req.body['password'] = bcrypt.hashSync(req.body['password'], 10);
     
     // Constructing
     const new_user = new User(req.body);
     if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
         res.status(400).send({ error: true, message: 'Please provide all required field' });
     }
+
+       
     
     // Checking presence of all fields
     if (req.body['email'] && req.body['password'] && req.body['plan'] && req.body['isActive']) {
