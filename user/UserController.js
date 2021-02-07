@@ -16,27 +16,25 @@ exports.findAll = function (req, res) {
 };
 
 exports.create = function (req, res) {
-     
-     // hashing password
-     req.body['password'] = bcrypt.hashSync(req.body['password'], 10);
-
-    
-    // Constructing
-    const new_user = new User(req.body);
-    if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
-        res.status(400).send({ error: true, message: 'Please provide all required field' });
-    }
-
-       
     
     // Checking presence of all fields
     if (req.body['email'] && req.body['password'] && req.body['plan'] && req.body['isActive']) {
         
+        // hashing password
+        req.body['password'] = bcrypt.hashSync(req.body['password'], 10);
+
+        // Constructing
+        const new_user = new User(req.body);
+        if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
+            res.status(400).send({ error: true, message: 'Please provide all required field' });
+        }
+        
         //Checking if same email exists  
         User.findByEmail(req.body['email'], function (error, result) {
+            if(error) res.status(400).send({message:"Server error"});
             
             if (result.length != 0) {
-                res.status(400).json({ message: "Email already exists!" });
+                res.status(403).json({ message: "Email already exists! Try to login" });
             }
             else {
                 User.create(new_user, function (err, user) {
@@ -49,7 +47,7 @@ exports.create = function (req, res) {
         });
     }
     else {
-        res.status(404).send({ error: true, message: 'Please provide all the required fields' });
+        res.status(400).send({ error: true, message: 'Please provide all the required fields' });
     }
 
 };
