@@ -10,7 +10,7 @@ Router.post('/', VerifyToken, function (req, res) {
 		if (err) throw err
 
 
-		let interval = req.body.interval;
+		let interval = req.body.interval*60*1000;
 		var link = req.body.link;
 		if (req.body.user_id != req.userId) return res.status(401).send({
 			error: true,
