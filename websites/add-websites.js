@@ -3,7 +3,9 @@ const Router = express.Router();
 var pool = require('./../config/db_config')
 var VerifyToken = require('../auth/VerifyToken');
 
-const https = require('https');
+const { exec } = require("child_process");
+const { stderr } = require("process");
+
 Router.post('/', VerifyToken, function (req, res) {
 
 	pool.getConnection((err, connection) => {
@@ -45,21 +47,23 @@ Router.post('/', VerifyToken, function (req, res) {
 
 								var website_id = id;
 								var start = new Date();
-								https.get(`${link}`, function (res, err) {
-									var responseTime = new Date() - start;
-									var statusCode = 404;
-									if (!err) {
-										const headerDate = res.headers && res.headers.date ? res.headers.date : 'no response date';
+                                var statusCode=404
+								var responseTime=0
+								var command = `curl -s -o -I  -w "%{http_code}" "${link}" -o /dev/null`;
+								exec(command,(error,stdout,stderr)=>{
+								 statusCode=stdout;
+									console.log("statusCode",statusCode);
+									
+								});
 
-										statusCode = res.statusCode;
+								var command = `curl -s -o -I  -w "%{time_total}" "${link}" -o /dev/null`;
+								exec(command,(error,stdout,stderr)=>{
+									responseTime=stdout;
+									console.log(responseTime);
+									
+								});
 
-
-										console.log("StatusChecked" + website_id + " " + statusCode);
-									} else {
-										statusCode = 404;
-									}
-
-									let sql = 'INSERT INTO logs SET website_id = ? , status = ? , response_time =?';
+								let sql = 'INSERT INTO logs SET website_id = ? , status = ? , response_time =?';
 
 									pool.query(sql, [website_id, statusCode, responseTime],
 										(err, result) => {
@@ -70,11 +74,8 @@ Router.post('/', VerifyToken, function (req, res) {
 											} else
 												console.log(result);
 										});
-
-								}).on('error', function (e) {
-									console.error(e);
-
-								});
+                               
+							
 
 							}
 
