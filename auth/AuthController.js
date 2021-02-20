@@ -6,8 +6,8 @@ router.use(bodyParser.json());
 
 var jwt = require('jsonwebtoken'); 
 var bcrypt = require('bcryptjs');
-var configuration = require('../configurations'); // Secret Key
-
+// Secret Key
+require('dotenv').config()
 var User = require('../user/User');
 const userController =   require('../user/UserController');
 
@@ -25,7 +25,7 @@ router.post('/login', function(req, res) {
 
     // if user is found and password is valid
     // create a token
-    var token = jwt.sign({ id: user['user_id'] }, configuration.secret, {
+    var token = jwt.sign({ id: user['user_id'] }, process.env.SECRET, {
       expiresIn: 86400 // expires in 24 hours
     });
 

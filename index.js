@@ -12,7 +12,10 @@ const nodemailer = require("nodemailer");
 app.get('/', (req, res) => {
     res.send("Success");
 });
-;
+WebsiteAdding = require("./websites/add-websites");
+const WebsiteRemoving = require("./websites/remove-websites");
+app.use("/add-websites", WebsiteAdding);
+app.use("/remove-websites", WebsiteRemoving);
 const userRoutes = require('./user/UserRoute');
 const AuthRoutes = require('./auth/AuthController');
 // using as middlewarse
