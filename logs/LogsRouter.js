@@ -1,8 +1,9 @@
 const express = require('express')
-const Router = require('express').Router()
+const router = require('express').Router()
 const VerifyToken = require('../auth/VerifyToken')
 const logsPage = require('./Logs')
 
-Router.get('/',logsPage.generateLog)
+router.get('/',logsPage.generateLog)
+router.get('/getlogs',logsPage.getLogs)
 
-module.exports = Router
+module.exports = router
