@@ -12,7 +12,7 @@ exports.generateLog =  (req,res) =>{
      if(err)
      console.log(err)
      website.push(result[0])
-    //  console.log(website)
+    //  console.log(website[0].link)
     var command = `curl -sL -Is -A "Googlebot/2.1 (+http://www.google.com/bot.html)" -w ";%{http_code};%{time_total}" "${website[0].link}" `
 
     child = exec(command, function(error, stdout, stderr){
@@ -29,8 +29,10 @@ exports.generateLog =  (req,res) =>{
              console.log(err)
              else{
                 res.json({
+                    link : website[0].link,
                     code: reverse[1],
-                    time : reverse[0]
+                    time : reverse[0],
+                    interval : website[0].intervals
                 })
              }
           })
@@ -42,6 +44,18 @@ exports.generateLog =  (req,res) =>{
     }
  })
  })
+}
+
+exports.getLogs = (req,res)=>{
+   dbConn.query('SELECT * FROM logs',(err,result)=>{
+      if(err)
+      console.log(err)
+      else{
+         res.status(200).send(result)
+      }
+   })
+
+   
 }
 
 
