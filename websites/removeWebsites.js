@@ -4,10 +4,10 @@ var pool=require('../config/db_config')
 var VerifyToken = require('../auth/VerifyToken');
 
 router.delete('/',VerifyToken, function (req, res) {
-    id = req.query.id
+    id = req.userId
     pool.getConnection((err, connection) => {
             if(err) throw err
-            connection.query('SELECT * FROM websites WHERE website_id = ?',[id],(err,result)=>{
+            connection.query('SELECT * FROM websites WHERE user_id = ?',[id],(err,result)=>{
                  if(err)
                  console.log(err)
                 else if(Object.keys(result) == '')
@@ -18,7 +18,7 @@ router.delete('/',VerifyToken, function (req, res) {
                     })
                 }
                 else{
-                    connection.query('DELETE FROM websites  where website_id=?; DELETE FROM logs WHERE website_id=?', [id,id], (err, rows) => {
+                    connection.query('DELETE FROM websites  where user_id=?',[id], (err, rows) => {
                     connection.release() 
                     if (!err) {
                         res.status(200).send({
@@ -27,7 +27,6 @@ router.delete('/',VerifyToken, function (req, res) {
                     } else {
                         console.log(err)
                     }
-                    console.log(rows)
                     })
                 }
             })
