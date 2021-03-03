@@ -5,6 +5,7 @@ SET time_zone = "+00:00";
 CREATE TABLE  if not exists `logs` (
   `log_id` int(11) NOT NULL PRIMARY KEY,
   `website_id` int(11) NOT NULL,
+   `user_id` int(11) NOT NULL,
   `timestamp` datetime NOT NULL DEFAULT current_timestamp(),
   `status` int(11) NOT NULL COMMENT 'http response',
   `response_time` float NOT NULL COMMENT 'response time in second'
@@ -25,7 +26,7 @@ CREATE TABLE  if not exists `websites` (
   `website_name` varchar(255) NOT NULL,      
   `tags` varchar(255) NOT NULL,
   `link` varchar(250) NOT NULL,
-  `interval` int(2) NOT NULL,
+  `intervals` int(2) NOT NULL,
   `user_id` int(11) NOT NULL,
   `timestamp` datetime NOT NULL DEFAULT current_timestamp(),
   `isActive` int(11) NOT NULL DEFAULT 1
