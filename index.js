@@ -14,7 +14,7 @@ app.get('/', (req, res) => {
 });
 
 
-const WebsiteAdding = require("./websites/addWebsitesRoutes");
+const WebsiteAdding = require("./websites/addWebsitesControlller");
 const WebsiteRemoving = require("./websites/removeWebsites");
 const GetAllWebsites = require('./websites/getAll')
 app.use("/addWebsites", WebsiteAdding);
